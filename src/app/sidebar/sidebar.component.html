@@ -1,0 +1,35 @@
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <a href="#" class="simple-text logo-mini">
+      <div class="logo-image-small">
+        <img src="assets/img/angular2-logo.png">
+      </div>
+    </a>
+    <a href="#" class="simple-text logo-normal">
+      {{nombreSistema}}
+    </a>
+  </div>
+  <ul class="nav">
+    <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
+      <a *ngIf="!menuItem.isDropDownMenu;else submenus" [routerLink]="[menuItem.path]">
+        <i class="nc-icon {{menuItem.icon}}"></i>
+        <p>{{menuItem.title}}</p>
+      </a>
+
+      <ng-template #submenus>
+        <a>
+          <i class="nc-icon {{menuItem.icon}}"></i>
+          <p>{{menuItem.title}}</p>
+        </a>
+        <ul>
+          <li *ngFor="let submenu of menuItem.submenu" routerLinkActive="active" class="{{menuItem.class}}">
+            <a [routerLink]="[submenu.path]">
+              <i class="nc-icon {{submenu.icon}}"></i>
+              <p>{{submenu.title}}</p>
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+    </li>
+  </ul>
+</div>
