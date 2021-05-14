@@ -6,27 +6,29 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
-import { NavbarModule} from './shared/navbar/navbar.module';
-import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
+import { NavbarModule } from './shared/navbar/navbar.module';
+import { FixedPluginModule } from './shared/fixedplugin/fixedplugin.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UsuarioService } from './pages/user/usuario.service';
+import { UsuarioService } from './pages/users/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginGuard } from './guards/login.guard';
 import { UsersComponent } from './pages/users/users.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresasComponent } from './pages/empresas/empresas.component';
-import {MatSortModule} from '@angular/material/sort';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableModule} from '@angular/material/table';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -51,11 +53,13 @@ import {MatInputModule} from '@angular/material/input';
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
+    FontAwesomeModule,
     MatSortModule,
     MatPaginatorModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSlideToggleModule
   ],
   providers: [
     UsuarioService,

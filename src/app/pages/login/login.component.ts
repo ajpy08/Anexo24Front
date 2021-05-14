@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Usuario } from 'app/models/usuario';
-import { UsuarioService } from '../user/usuario.service';
+import { Usuario } from 'app/pages/users/usuario';
+import { UsuarioService } from '../users/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
           window.location.href = localStorage.getItem('urlMain');
           localStorage.removeItem('urlMain');
         } else {
-          this.router.navigate(['/#/dashboard']);
+          this.router.navigate(['/dashboard']);
         }
       });
   }

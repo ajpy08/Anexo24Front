@@ -1,9 +1,9 @@
+import { UsuarioService } from './../users/usuario.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Usuario } from 'app/models/usuario';
-import { ICategoryStructure } from './user.model';
-
+import { Usuario } from 'app/pages/users/usuario';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -17,45 +17,35 @@ export class UsersComponent implements OnInit {
   usuarioExcel = [];
   displayedColumns = [
     'actions',
-    'foto',
-    'email',
-    'activo',
+    // 'foto',
     'nombre',
-    'role',
-    'empresas'
+    'email',
+    'estado',
+    // 'role',
+    // 'empresas',
+    'createdAt'
   ];
   dataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public categories: ICategoryStructure[] = [
-    {
-      id: 1,
-      isDropDownMenu: false,
-      description: 'description1',
-      dropDownTarget: '',
-      subMenuList: []
-    },
-    {
-      id: 2,
-      isDropDownMenu: false,
-      description: 'description2',
-      dropDownTarget: '',
-      subMenuList: []
-    },
-    {
-      id: 3,
-      isDropDownMenu: true,
-      description: 'description3',
-      dropDownTarget: 'description3Target',
-      subMenuList: ['subDescription1', 'subDescription2', 'subDescription3']
-    }
-  ];
-
-  constructor() { }
+  constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  cargarUsuarios() {
+    this.cargando = true;
+    this.usuarioService.getUsuarios().subscribe((users: any) => {
+      this.dataSource = new MatTableDataSource(users.users);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.totalRegistros = users.users.length;
+    });
     this.cargando = false;
   }
 
+  exportarXLSX() {
+  }
 }

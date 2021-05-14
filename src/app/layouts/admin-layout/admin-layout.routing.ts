@@ -3,7 +3,7 @@ import { UsersComponent } from './../../pages/users/users.component';
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { UserComponent } from '../../pages/user/user.component';
+import { UserComponent } from '../../pages/users/user.component';
 import { TableComponent } from '../../pages/table/table.component';
 import { TypographyComponent } from '../../pages/typography/typography.component';
 import { IconsComponent } from '../../pages/icons/icons.component';
@@ -13,7 +13,6 @@ import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user',           component: UserComponent },
     { path: 'table',          component: TableComponent },
     { path: 'typography',     component: TypographyComponent },
     { path: 'icons',          component: IconsComponent },
@@ -21,5 +20,13 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'users',          component: UsersComponent },
+    { path: 'user',           component: UserComponent },
+    {
+        path: 'users/user/:id',
+        component: UserComponent,
+        // canActivate: [REIMGuard],
+        data: { titulo: 'Actualizacion de Usuarios.' }
+        // data: { titulo: 'Actualizacion de Usuarios.', roles: [ROLES.ADMIN_ROLE] }
+    },
     { path: 'empresas',       component: EmpresasComponent }
 ];
