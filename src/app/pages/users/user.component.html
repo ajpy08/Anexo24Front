@@ -129,9 +129,16 @@
           <div class="row">
             <div class="col-md-5 pr-1">
               <div class="form-group">
-                <label>Company (disabled)</label>
+                <!-- <label>Company (disabled)</label>
                 <input matInput type="text" class="form-control" disabled="" placeholder="Company"
-                  value="Creative Code Inc.">
+                  value="Creative Code Inc."> -->
+                <label>Empresas</label>
+                <mat-select [(ngModel)]="seleccionados" placeholder="Seleccione una empresa" formControlName="empresas"
+                multiple>
+                <mat-option *ngFor="let empresa of listaEmpresas" [value]="empresa.empresaId">
+                  {{ empresa.nombre }}
+                </mat-option>
+              </mat-select>
               </div>
             </div>
             <!-- <div class="col-md-3 px-1">
@@ -149,7 +156,8 @@
             </div>
             <div class="col-md-3 pl-1">
               <div class="form-group">
-                <mat-slide-toggle formControlName="estado" [checked]="this.estado.value">Estado</mat-slide-toggle>
+                <mat-slide-toggle formControlName="estado" [checked]="this.estado.value">Estado
+                </mat-slide-toggle>
               </div>
             </div>
           </div>
@@ -164,8 +172,8 @@
             <div class="col-md-6 pl-1">
               <div class="form-group">
                 <label>Fecha Cración (disabled)</label>
-                <input matInput formControlName="createdAt" type="text" class="form-control" [attr.disabled]="true"
-                  placeholder="Creado el..." value={{this.createdAt.value}}>
+                <input matInput formControlName="createdAt" type="text" class="form-control" placeholder="Creado el..."
+                value={{this.createdAt.value}}>
               </div>
             </div>
           </div>
@@ -173,15 +181,15 @@
             <div class="col-md-6 pr-1">
               <div class="form-group">
                 <label>Password (disabled)</label>
-                <input matInput formControlName="password" type="password" class="form-control" [attr.disabled]="true"
-                  placeholder="Password" value={{this.password.value}}>
+                <input matInput formControlName="password" type="password" class="form-control" placeholder="Password"
+                  autocomplete="on" value={{this.password.value}}>
               </div>
             </div>
             <div class="col-md-6 pl-1">
               <div class="form-group">
                 <label>Confirma Password (disabled)</label>
                 <input matInput formControlName="passwordConfirm" type="password" class="form-control"
-                  [attr.disabled]="true" placeholder="Confirma Password" value="">
+                  placeholder="Confirma Password" autocomplete="on" value="">
               </div>
             </div>
             <!-- <div class="col-md-12">
@@ -227,6 +235,8 @@
             </div>
           </div>
         </form>
+        <p>Form value {{ regForm.value | json }} </p>
+        <p> Form status {{ regForm.status | json}} </p>
       </div>
     </div>
   </div>

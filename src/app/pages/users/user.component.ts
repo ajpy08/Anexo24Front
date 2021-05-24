@@ -1,8 +1,12 @@
+import { EmpresaService } from './../empresas/empresa.service';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from './usuario.service';
 import swal from 'sweetalert2'
+import { Empresa } from '../empresas/empresa.model';
+import * as _moment from 'moment';
+const moment = _moment;
 
 @Component({
     selector: 'app-user-cmp',
@@ -12,11 +16,13 @@ import swal from 'sweetalert2'
 
 export class UserComponent implements OnInit {
     regForm: FormGroup;
-    // listaEmpresas: Empresa[] = [];
+    listaEmpresas: Empresa[] = [];
     url: string;
+    seleccionados: string;
 
     constructor(
         private usuarioService: UsuarioService,
+        private empresaService: EmpresaService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private fb: FormBuilder) { }
@@ -26,6 +32,8 @@ export class UserComponent implements OnInit {
         const id = this.activatedRoute.snapshot.paramMap.get('id');
         if (id !== 'nuevo') {
             this.cargarUsuario(id);
+        } else {
+            this.empresaService.getEmpresas().subscribe(empresas => this.listaEmpresas = empresas.empresas);
         }
         this.url = '/usuarios';
     }
@@ -35,12 +43,12 @@ export class UserComponent implements OnInit {
             nombre: ['', [Validators.required, Validators.minLength(5)]],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required]],
-            passwordConfirm: ['', [ Validators.required, this.match('password')]],
-            estado: [''],
-            createdAt: [''],
+            passwordConfirm: ['', [Validators.required, this.match('password')]],
+            estado: [true],
+            createdAt: [moment()],
             userId: [''],
             // role: ['', [Validators.required]],
-            // empresas: [''],
+            empresas: ['', [Validators.required]],
             // permiso: [''],
             // observaciones: [''],
             // img: [''],
@@ -64,19 +72,22 @@ export class UserComponent implements OnInit {
 
     cargarUsuario(id: string) {
         this.usuarioService.getUsuario(id).subscribe(usuario => {
-            // this._clienteService.getClientesRole(usuario.role).subscribe(empresas => this.listaEmpresas = empresas);
+            this.empresaService.getEmpresas().subscribe(empresas => this.listaEmpresas = empresas.empresas);
             this.nombre.setValue(usuario.nombre);
             this.email.setValue(usuario.email);
             // this.password.setValue(usuario.password);
             // this.passwordConfirm.setValue(usuario.password);
             this.password.disable();
             this.passwordConfirm.disable();
+            this.createdAt.disable();
             this.estado.setValue(usuario.estado);
             this.createdAt.setValue(usuario.createdAt);
             this.userId.setValue(usuario.userId);
             // this.role.setValue(usuario.role);
             // this.role.disable();
-            // this.empresas.setValue(usuario.empresas);
+            this.empresaService.getEmpresasXUsuario(id).subscribe((empresas) => {
+                this.empresas.setValue(empresas.empresas);
+            });
             // this.observaciones.setValue(usuario.observaciones);
             // this.img.setValue(usuario.img);
             // this.permiso.setValue(usuario.permiso);
@@ -87,15 +98,15 @@ export class UserComponent implements OnInit {
     guardarUsuario() {
         if (this.regForm.valid) {
             this.usuarioService.guardarUsuario(this.regForm.value)
-                .subscribe(usuario => {
+                .subscribe(user => {
                     // this.fileFoto = null;
                     // this.fotoTemporal = false;
                     if (this.regForm.get('userId').value === '' || this.regForm.get('userId').value === undefined) {
-                        this.regForm.get('userId').setValue(usuario.userId);
+                        this.regForm.get('userId').setValue(user.userId);
                         this.password.disable();
                         this.passwordConfirm.disable();
                         // this.role.disable();
-                        this.router.navigate(['/usuarios/usuario', this.regForm.get('userId').value]);
+                        this.router.navigate(['/users/user', this.regForm.get('userId').value]);
                     }
                     this.regForm.markAsPristine();
                 });
@@ -104,14 +115,14 @@ export class UserComponent implements OnInit {
 
     habilitaDeshabilitaUsuario(event) {
         if (this.userId.value === this.usuarioService.usuario.userId) {
-          swal.fire(
-            {
-                title: 'Error!',
-                text: 'No se puede habilitar / deshabilitar a si mismo',
-                icon: 'error'
-              }
-          );
-          return;
+            swal.fire(
+                {
+                    title: 'Error!',
+                    text: 'No se puede habilitar / deshabilitar a si mismo',
+                    icon: 'error'
+                }
+            );
+            return;
         }
 
         swal.fire({
@@ -121,23 +132,23 @@ export class UserComponent implements OnInit {
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
             cancelButtonText: 'No, keep it'
-          }).then((result) => {
+        }).then((result) => {
             if (result.value) {
-              swal.fire(
-                'Deleted!',
-                'Your imaginary file has been deleted.',
-                'success'
-              )
-            // For more information about handling dismissals please visit
-            // https://sweetalert2.github.io/#handling-dismissals
+                swal.fire(
+                    'Deleted!',
+                    'Your imaginary file has been deleted.',
+                    'success'
+                )
+                // For more information about handling dismissals please visit
+                // https://sweetalert2.github.io/#handling-dismissals
             } else if (result.dismiss === swal.DismissReason.cancel) {
-              swal.fire(
-                'Cancelled',
-                'Your imaginary file is safe :)',
-                'error'
-              )
+                swal.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                )
             }
-          })
+        })
 
         // swal.fire({
         //   title: "¿Esta seguro?",
@@ -156,7 +167,7 @@ export class UserComponent implements OnInit {
         //     event.source.checked = !event.checked;
         //   }
         // });
-      }
+    }
 
     /* #region  Propiedades */
     get nombre() {
@@ -194,9 +205,9 @@ export class UserComponent implements OnInit {
     // get permiso() {
     //     return this.regForm.get('permiso');
     // }
-    // get empresas() {
-    //     return this.regForm.get('empresas');
-    // }
+    get empresas() {
+        return this.regForm.get('empresas');
+    }
 
     // get observaciones() {
     //     return this.regForm.get('observaciones');
