@@ -45,7 +45,7 @@ export class UsuarioService {
           return true;
         }),
         catchError(err => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/']);
           this.notificationsService.showNotification(typeNotification.ERROR, 'No se pudo renovar token ');
           // swal('No se pudo renovar token', 'No fue posible renovar token', 'error');
           return throwError(err);
@@ -131,7 +131,7 @@ export class UsuarioService {
     // localStorage.removeItem('MantenimientosfiltroFechaIni');
     // localStorage.removeItem('MantenimientosfiltroFechaFin');
 
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
   // updateStatusUser(usuario) {

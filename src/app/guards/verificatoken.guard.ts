@@ -26,7 +26,7 @@ export class VerificaTokenGuard implements CanActivateChild {
       console.log('Token expirado');
       if (this.usuarioService.usuario) {
         this.logout();
-        // this.router.navigate(['/login']);
+        // this.router.navigate(['/']);
       }
       location.reload(true);
       return false;

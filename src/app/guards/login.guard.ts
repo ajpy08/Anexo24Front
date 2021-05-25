@@ -18,7 +18,7 @@ export class LoginGuard implements CanActivate {
       // if (this.usuarioService.usuario && this.usuarioService.usuario.estado) {
       //   this.usuarioService.updateStatusUser(this.usuarioService.usuario).subscribe(() => {});
       // }
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       return false;
     }
   }

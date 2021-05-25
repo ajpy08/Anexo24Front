@@ -30,7 +30,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 
 export const AppRoutes: Routes = [
-  {path: 'login', component: LoginComponent},
+  {path: '', component: LoginComponent},
   {
       path: '',
       canActivate: [ LoginGuard ],
