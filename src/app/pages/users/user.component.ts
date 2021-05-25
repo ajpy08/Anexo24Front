@@ -18,7 +18,6 @@ export class UserComponent implements OnInit {
     regForm: FormGroup;
     listaEmpresas: Empresa[] = [];
     url: string;
-    seleccionados: string;
 
     constructor(
         private usuarioService: UsuarioService,

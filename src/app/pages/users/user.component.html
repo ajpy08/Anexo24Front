@@ -133,7 +133,7 @@
                 <input matInput type="text" class="form-control" disabled="" placeholder="Company"
                   value="Creative Code Inc."> -->
                 <label>Empresas</label>
-                <mat-select [(ngModel)]="seleccionados" placeholder="Seleccione una empresa" formControlName="empresas"
+                <mat-select placeholder="Seleccione una empresa" formControlName="empresas"
                 multiple>
                 <mat-option *ngFor="let empresa of listaEmpresas" [value]="empresa.empresaId">
                   {{ empresa.nombre }}
