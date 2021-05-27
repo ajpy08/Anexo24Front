@@ -32,6 +32,7 @@ export class UserComponent implements OnInit {
         if (id !== 'nuevo') {
             this.cargarUsuario(id);
         } else {
+            this.createdAt.disable();
             this.empresaService.getEmpresas().subscribe(empresas => this.listaEmpresas = empresas.empresas);
         }
         this.url = '/usuarios';

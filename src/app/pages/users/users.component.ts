@@ -76,8 +76,9 @@ export class UsersComponent implements OnInit {
   }
 
   habilitaDeshabilitaUsuario(usuario: Usuario, activo: MatSlideToggleChange) {
-    if (usuario.userId === this.usuarioService.usuario.userId) {
-      this.notificationsService.showNotification(typeNotification.ERROR, 'No se puede habilitar / deshabilitar a si mismo');
+    if (usuario.userId === this.usuarioService.usuario.userId && !activo.checked) {
+      this.notificationsService.showNotification(typeNotification.ERROR, 'No se puede deshabilitar a si mismo');
+      this.filtrado(this.inactivoTrue);
       return;
     }
 
