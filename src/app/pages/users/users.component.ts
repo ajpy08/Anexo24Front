@@ -7,6 +7,7 @@ import { Usuario } from 'app/pages/users/usuario.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { typeNotification } from 'app/config/config';
+import swal from 'sweetalert2'
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -35,8 +36,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private usuarioService: UsuarioService,
-    private notificationsService: NotificationsService
-    ) { }
+    private notificationsService: NotificationsService,
+  ) { }
 
   ngOnInit(): void {
     this.cargarUsuarios(true);
@@ -82,8 +83,31 @@ export class UsersComponent implements OnInit {
       return;
     }
 
-    this.usuarioService.habilitaDeshabilitaUsuario(usuario, activo.checked).subscribe(res => {
-      this.filtrado(this.inactivoTrue);
+    const actDes = activo.checked ? 'activar' : 'desactivar';
+
+    this.notificationsService.showQuestion(
+      'Estás seguro?',
+      `Quieres ${actDes} al usuario ${usuario.nombre}?`
+    ).then((result) => {
+      if (result.isConfirmed) {
+        this.usuarioService.habilitaDeshabilitaUsuario(usuario, activo.checked).subscribe((res) => {
+          this.filtrado(this.inactivoTrue);
+        });
+      } else if (result.dismiss === swal.DismissReason.cancel) {
+        this.notificationsService.showNotification(typeNotification.ERROR, 'Operación Cancelada');
+        this.filtrado(this.inactivoTrue);
+      }
     });
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    if (this.dataSource && this.dataSource.data.length > 0) {
+      this.dataSource.filter = filterValue;
+      this.totalRegistros = this.dataSource.filteredData.length;
+    } else {
+      this.notificationsService.showNotification(typeNotification.ERROR, 'No existen datos para filtrar');
+    }
   }
 }

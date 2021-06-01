@@ -134,14 +134,6 @@ export class UsuarioService {
     this.router.navigate(['/']);
   }
 
-  // updateStatusUser(usuario) {
-  //   // if (this.usuario) {
-  //   let url = URL_SERVICIOS + '/usuarios/usuario/' + usuario.userId + '/user/logout';
-  //   url += '?token=' + this.token;
-  //   return this.http.put(url, usuario);
-  //   // }
-  // }
-
   getUsuarios(act: boolean): Observable<any> {
     let url = URL_SERVICIOS + '/users/' + act;
     url += '?token=' + this.token;
@@ -168,7 +160,7 @@ export class UsuarioService {
     url += '?token=' + this.token;
     return this.http.post(url, usuario)
       .pipe(map((resp: any) => {
-        this.notificationsService.showNotification(typeNotification.INFO, `Usuario ${usuario.nombre} creado`);
+        this.notificationsService.showNotification(typeNotification.SUCCESS, `Usuario ${usuario.nombre} creado`);
         // swal('Usuario creado', usuario.email, 'success');
         return resp.user;
       }));
@@ -183,7 +175,7 @@ export class UsuarioService {
           const usuarioDB: Usuario = resp.user;
           this.guardarStorage(usuarioDB.userId, this.token, usuarioDB, this.menu, undefined);
         }
-        this.notificationsService.showNotification(typeNotification.INFO, `Usuario ${usuario.nombre} actualizado`);
+        this.notificationsService.showNotification(typeNotification.SUCCESS, `Usuario ${usuario.nombre} actualizado`);
         // swal('Usuario actualizado', usuario.nombre, 'success');
         return true;
       }));
@@ -194,7 +186,7 @@ export class UsuarioService {
     url += '?token=' + this.token;
     return this.http.put(url, { activo: status }).pipe(map((resp: any) => {
       const statusDesc = status ? 'activado' : 'desactivado';
-      this.notificationsService.showNotification(typeNotification.INFO, `Usuario ${usuario.nombre} ${statusDesc}`);
+      this.notificationsService.showNotification(typeNotification.SUCCESS, `Usuario ${usuario.nombre} ${statusDesc}`);
       return true;
     }));
   }

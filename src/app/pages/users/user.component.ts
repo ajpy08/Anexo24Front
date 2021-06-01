@@ -113,62 +113,6 @@ export class UserComponent implements OnInit {
         }
     }
 
-    habilitaDeshabilitaUsuario(event) {
-        if (this.userId.value === this.usuarioService.usuario.userId) {
-            swal.fire(
-                {
-                    title: 'Error!',
-                    text: 'No se puede habilitar / deshabilitar a si mismo',
-                    icon: 'error'
-                }
-            );
-            return;
-        }
-
-        swal.fire({
-            title: 'Are you sure?',
-            text: 'You will not be able to recover this imaginary file!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, keep it'
-        }).then((result) => {
-            if (result.value) {
-                swal.fire(
-                    'Deleted!',
-                    'Your imaginary file has been deleted.',
-                    'success'
-                )
-                // For more information about handling dismissals please visit
-                // https://sweetalert2.github.io/#handling-dismissals
-            } else if (result.dismiss === swal.DismissReason.cancel) {
-                swal.fire(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                )
-            }
-        })
-
-        // swal.fire({
-        //   title: "¿Esta seguro?",
-        //   text: "Esta apunto de deshabilitar a " + usuario.nombre,
-        //   icon: "warning",
-        //   buttons: true,
-        //   dangerMode: true
-        // }).then(borrar => {
-        //   if (borrar) {
-        //     this._usuarioService
-        //       .habilitaDeshabilitaUsuario(usuario, event.checked)
-        //       .subscribe(borrado => {
-        //         this.cargarUsuarios();
-        //       });
-        //   } else {
-        //     event.source.checked = !event.checked;
-        //   }
-        // });
-    }
-
     /* #region  Propiedades */
     get nombre() {
         return this.regForm.get('nombre');

@@ -6,7 +6,8 @@ export const typeNotification = {
     SUCCESS: 'success',
     WARNING: 'warning',
     ERROR: 'error',
-    SHOW: 'show'
+    SHOW: 'show',
+    QUESTION: 'question'
 }
 
 // export const ROLES = {

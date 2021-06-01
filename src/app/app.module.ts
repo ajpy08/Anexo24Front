@@ -48,7 +48,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     }),
     SidebarModule,
     NavbarModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot(
+      {
+        timeOut: 4000,
+        preventDuplicates: true
+      }
+    ),
     FooterModule,
     FixedPluginModule,
     FormsModule,
