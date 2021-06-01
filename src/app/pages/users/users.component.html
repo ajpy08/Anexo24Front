@@ -1,1 +1,125 @@
-<p>users works!</p>
+<div class="row animated fadeIn" *ngIf="cargando">
+	<div class="col-sm-12">
+		<div class="alert alert-warning text-center">
+			<strong>Cargando</strong>
+			<br>
+			<i class="fas fa-refresh fa-spin fa-2x"></i>
+			<br>
+			<span>Espere por favor</span>
+		</div>
+	</div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+	<div class="col-12">
+		<div class="card card-user">
+			<div class="card-body">
+				<div class="text-right">
+					<button (click)="exportarXLSX()" class="btn btn-success m-r-10">
+						<i class="fas fa-file-excel"></i>
+					</button>
+					<button matTooltip="Añadir nuevo Usuario" mat-mini-fab class="btn btn-primary"
+						[routerLink]="['/users/user','nuevo']" type="button">
+						<i class="fa fa-plus"></i>
+					</button>
+				</div>
+				<h3 class="card-title">Usuarios (<small>{{totalRegistros}}</small>)</h3>
+				<mat-checkbox [checked]="acttrue" [(ngModel)]="acttrue" #bool (value)="bool.checked"
+					(change)="filtrado(bool.checked)">INACTIVOS
+				</mat-checkbox>
+				<div class="example-header mat-elevation-z8">
+					<mat-form-field>
+					  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Escriba algo para filtrar">
+					</mat-form-field>
+				  </div>
+
+				<br>
+				<div class="example-container mat-elevation-z8">
+				</div>
+				<div class="example-container mat-elevation-z8">
+					<mat-table class="mat-table-big" #table [dataSource]="dataSource" matSort>
+						<ng-container matColumnDef="actions">
+							<mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+							<mat-cell *matCellDef="let usuario">
+								<button matTooltip="Editar Usuario" [routerLink]="['/users/user', usuario.userId ]"
+									class="btn btn-primary m-r-5">
+									<i class="fa fa-edit"></i>
+								</button>
+								<button matTooltip="Restablecer Contraseña"
+									[routerLink]="['/users/user', usuario._id ,'resetPass']"
+									class="btn btn-rounded m-r-5">
+									<i class="fa fa-unlock-alt"></i>
+								</button>
+								<button *ngIf="usuario.estado" matTooltip="Eliminar Usuario"
+									(click)="borrarUsuario(usuario)" class="btn btn-danger m-r-5">
+									<i class="far fa-trash-alt"></i>
+								</button>
+							</mat-cell>
+						</ng-container>
+
+						<!-- <ng-container matColumnDef="foto">
+				<mat-header-cell *matHeaderCellDef>Foto</mat-header-cell>
+				<mat-cell  matTooltip="Foto de Usuario" *matCellDef="let row"> <img [src]="row.img | imagen" class="img-50 img-circle pointer">
+				</mat-cell>
+			  </ng-container> -->
+
+						<ng-container matColumnDef="nombre">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+							<mat-cell *matCellDef="let row"> {{row.nombre}} </mat-cell>
+						</ng-container>
+
+						<ng-container matColumnDef="email">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+							<mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+						</ng-container>
+
+						<ng-container matColumnDef="estado">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+							<mat-cell *matCellDef="let row">
+								<mat-slide-toggle [checked]="row.estado"
+									(change)="habilitaDeshabilitaUsuario(row, $event)"></mat-slide-toggle>
+							</mat-cell>
+						</ng-container>
+
+						<!-- <ng-container matColumnDef="role">
+				<mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+				<mat-cell *matCellDef="let row">
+				  <mat-select disabled [(ngModel)]="row.role" name="role" class="form-control">
+					<mat-option *ngFor="let role of roles" [value]="role._id">
+					  {{role.descripcion}}
+					</mat-option>
+				  </mat-select>
+				</mat-cell>
+			  </ng-container> -->
+
+						<!-- <ng-container matColumnDef="empresas">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>Empresas</mat-header-cell>
+				<mat-cell *matCellDef="let row">
+				  <mat-cell *ngFor="let empresa of row.empresas" class="m-r-5"> {{empresa.razonSocial}}
+				  </mat-cell>
+				</mat-cell>
+			  </ng-container> -->
+
+						<ng-container matColumnDef="createdAt">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>FAlta</mat-header-cell>
+							<mat-cell *matCellDef="let row"> {{row.createdAt | date:'dd/MM/yyyy'}} </mat-cell>
+						</ng-container>
+
+						<mat-header-row *matHeaderRowDef="displayedColumns" class="encabezado"></mat-header-row>
+						<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+					</mat-table>
+					<mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="10" [showFirstLastButtons]>
+					</mat-paginator>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <div ngbDropdown>
+	<a class="btn btn-secondary" id="dropdownBasic2" ngbDropdownToggle>Dropdown Link</a>
+	<div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+		<button ngbDropdownItem>Action - 1</button>
+		<button ngbDropdownItem>Another Action</button>
+		<button ngbDropdownItem>Something else is here</button>
+	</div>
+</div> -->

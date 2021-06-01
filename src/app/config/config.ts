@@ -1,6 +1,15 @@
 
 export const nombreSistema = 'Inventarios';
 
+export const typeNotification = {
+    INFO: 'show',
+    SUCCESS: 'success',
+    WARNING: 'warning',
+    ERROR: 'error',
+    SHOW: 'show',
+    QUESTION: 'question'
+}
+
 // export const ROLES = {
 //   ADMIN_ROLE: 'ADMIN_ROLE',
 //   PATIOADMIN_ROLE: 'PATIOADMIN_ROLE',

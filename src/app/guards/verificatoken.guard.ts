@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UsuarioService } from '../pages/user/usuario.service';
+import { UsuarioService } from '../pages/users/usuario.service';
 // import { Router } from '@angular/router';
 import { CanActivateChild, Router } from '@angular/router';
 // import * as io from 'socket.io-client';
@@ -26,7 +26,7 @@ export class VerificaTokenGuard implements CanActivateChild {
       console.log('Token expirado');
       if (this.usuarioService.usuario) {
         this.logout();
-        // this.router.navigate(['/login']);
+        // this.router.navigate(['/']);
       }
       location.reload(true);
       return false;

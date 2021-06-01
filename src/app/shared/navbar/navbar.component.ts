@@ -1,4 +1,4 @@
-import { UsuarioService } from './../../pages/user/usuario.service';
+import { UsuarioService } from './../../pages/users/usuario.service';
 import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';

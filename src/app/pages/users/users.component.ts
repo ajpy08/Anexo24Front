@@ -1,9 +1,13 @@
+import { NotificationsService } from './../notifications/notifications.service';
+import { UsuarioService } from './../users/usuario.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Usuario } from 'app/models/usuario';
-import { ICategoryStructure } from './user.model';
-
+import { Usuario } from 'app/pages/users/usuario.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { typeNotification } from 'app/config/config';
+import swal from 'sweetalert2'
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -17,45 +21,93 @@ export class UsersComponent implements OnInit {
   usuarioExcel = [];
   displayedColumns = [
     'actions',
-    'foto',
-    'email',
-    'activo',
+    // 'foto',
     'nombre',
-    'role',
-    'empresas'
+    'email',
+    'estado',
+    // 'role',
+    // 'empresas',
+    'createdAt'
   ];
+  inactivoTrue = false;
   dataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public categories: ICategoryStructure[] = [
-    {
-      id: 1,
-      isDropDownMenu: false,
-      description: 'description1',
-      dropDownTarget: '',
-      subMenuList: []
-    },
-    {
-      id: 2,
-      isDropDownMenu: false,
-      description: 'description2',
-      dropDownTarget: '',
-      subMenuList: []
-    },
-    {
-      id: 3,
-      isDropDownMenu: true,
-      description: 'description3',
-      dropDownTarget: 'description3Target',
-      subMenuList: ['subDescription1', 'subDescription2', 'subDescription3']
-    }
-  ];
-
-  constructor() { }
+  constructor(
+    private usuarioService: UsuarioService,
+    private notificationsService: NotificationsService,
+  ) { }
 
   ngOnInit(): void {
+    this.cargarUsuarios(true);
+  }
+
+  cargarUsuarios(bool: boolean) {
+    this.cargando = true;
+    this.usuarioService.getUsuarios(bool).subscribe((users: any) => {
+      this.dataSource = new MatTableDataSource(users.users);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.totalRegistros = users.users.length;
+    });
     this.cargando = false;
   }
 
+  filtrado(bool: boolean) {
+    if (bool === false) {
+      bool = true;
+      this.inactivoTrue = false;
+      this.cargarUsuarios(bool);
+    } else if (bool === true) {
+      bool = false;
+      this.inactivoTrue = true;
+      this.cargarUsuarios(bool);
+    }
+  }
+
+  exportarXLSX() {
+  }
+
+  borrarUsuario(usuario: Usuario) {
+    // uso el metodo de habilitaDesahabilita usuario ya que no voy a eliminar datos,
+    // siempre voy a deshabilitar para mantener la integridad de los datos
+    const check = new MatSlideToggleChange(undefined, false);
+    this.habilitaDeshabilitaUsuario(usuario, check);
+  }
+
+  habilitaDeshabilitaUsuario(usuario: Usuario, activo: MatSlideToggleChange) {
+    if (usuario.userId === this.usuarioService.usuario.userId && !activo.checked) {
+      this.notificationsService.showNotification(typeNotification.ERROR, 'No se puede deshabilitar a si mismo');
+      this.filtrado(this.inactivoTrue);
+      return;
+    }
+
+    const actDes = activo.checked ? 'activar' : 'desactivar';
+
+    this.notificationsService.showQuestion(
+      'Estás seguro?',
+      `Quieres ${actDes} al usuario ${usuario.nombre}?`
+    ).then((result) => {
+      if (result.isConfirmed) {
+        this.usuarioService.habilitaDeshabilitaUsuario(usuario, activo.checked).subscribe((res) => {
+          this.filtrado(this.inactivoTrue);
+        });
+      } else if (result.dismiss === swal.DismissReason.cancel) {
+        this.notificationsService.showNotification(typeNotification.ERROR, 'Operación Cancelada');
+        this.filtrado(this.inactivoTrue);
+      }
+    });
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    if (this.dataSource && this.dataSource.data.length > 0) {
+      this.dataSource.filter = filterValue;
+      this.totalRegistros = this.dataSource.filteredData.length;
+    } else {
+      this.notificationsService.showNotification(typeNotification.ERROR, 'No existen datos para filtrar');
+    }
+  }
 }

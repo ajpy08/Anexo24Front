@@ -8,10 +8,10 @@
         <div class="author">
           <a href="#">
             <img class="avatar border-gray" src="assets/img/mike.jpg" alt="...">
-            <h5 class="title">Chet Faker</h5>
+            <h5 class="title">{{this.nombre.value}}</h5>
           </a>
           <p class="description">
-            @chetfaker
+            {{this.email.value}}
           </p>
         </div>
         <p class="description text-center">
@@ -56,7 +56,8 @@
             <div class="row">
               <div class="col-md-2 col-2">
                 <div class="avatar">
-                  <img src="assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                  <img src="assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image"
+                    class="img-circle img-no-padding img-responsive">
                 </div>
               </div>
               <div class="col-md-7 col-7">
@@ -67,7 +68,8 @@
                 </span>
               </div>
               <div class="col-md-3 col-3 text-right">
-                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></button>
+                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i
+                    class="fa fa-envelope"></i></button>
               </div>
             </div>
           </li>
@@ -75,7 +77,8 @@
             <div class="row">
               <div class="col-md-2 col-2">
                 <div class="avatar">
-                  <img src="assets/img/faces/joe-gardner-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                  <img src="assets/img/faces/joe-gardner-2.jpg" alt="Circle Image"
+                    class="img-circle img-no-padding img-responsive">
                 </div>
               </div>
               <div class="col-md-7 col-7">
@@ -86,7 +89,8 @@
                 </span>
               </div>
               <div class="col-md-3 col-3 text-right">
-                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></button>
+                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i
+                    class="fa fa-envelope"></i></button>
               </div>
             </div>
           </li>
@@ -94,7 +98,8 @@
             <div class="row">
               <div class="col-md-2 col-2">
                 <div class="avatar">
-                  <img src="assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                  <img src="assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image"
+                    class="img-circle img-no-padding img-responsive">
                 </div>
               </div>
               <div class="col-ms-7 col-7">
@@ -105,7 +110,8 @@
                 </span>
               </div>
               <div class="col-md-3 col-3 text-right">
-                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></button>
+                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i
+                    class="fa fa-envelope"></i></button>
               </div>
             </div>
           </li>
@@ -119,48 +125,79 @@
         <h5 class="card-title">Edit Profile</h5>
       </div>
       <div class="card-body">
-        <form>
+        <form [formGroup]="regForm" (ngSubmit)="guardarUsuario()" novalidate>
           <div class="row">
             <div class="col-md-5 pr-1">
               <div class="form-group">
-                <label>Company (disabled)</label>
-                <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc.">
+                <!-- <label>Company (disabled)</label>
+                <input matInput type="text" class="form-control" disabled="" placeholder="Company"
+                  value="Creative Code Inc."> -->
+                <label>Empresas</label>
+                <mat-select placeholder="Seleccione una empresa" formControlName="empresas"
+                multiple>
+                <mat-option *ngFor="let empresa of listaEmpresas" [value]="empresa.empresaId">
+                  {{ empresa.nombre }}
+                </mat-option>
+              </mat-select>
               </div>
             </div>
-            <div class="col-md-3 px-1">
+            <!-- <div class="col-md-3 px-1">
               <div class="form-group">
                 <label>Username</label>
                 <input type="text" class="form-control" placeholder="Username" value="michael23">
               </div>
-            </div>
+            </div> -->
             <div class="col-md-4 pl-1">
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" placeholder="Email">
+                <label for="exampleInputEmail1">Email</label>
+                <input matInput formControlName="email" type="email" class="form-control" placeholder="Email"
+                  value={{this.email.value}}>
+              </div>
+            </div>
+            <div class="col-md-3 pl-1">
+              <div class="form-group">
+                <mat-slide-toggle formControlName="estado" [checked]="this.estado.value">Estado
+                </mat-slide-toggle>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6 pr-1">
               <div class="form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control" placeholder="Company" value="Chet">
+                <label>Nombre</label>
+                <input matInput formControlName="nombre" type="text" class="form-control" placeholder="Nombre"
+                  value={{this.nombre.value}}>
               </div>
             </div>
             <div class="col-md-6 pl-1">
               <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name" value="Faker">
+                <label>Fecha Cración (disabled)</label>
+                <input matInput formControlName="createdAt" type="text" class="form-control" placeholder="Creado el..."
+                value={{this.createdAt.value}}>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Password (disabled)</label>
+                <input matInput formControlName="password" type="password" class="form-control" placeholder="Password"
+                  autocomplete="on" value={{this.password.value}}>
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Confirma Password (disabled)</label>
+                <input matInput formControlName="passwordConfirm" type="password" class="form-control"
+                  placeholder="Confirma Password" autocomplete="on" value="">
+              </div>
+            </div>
+            <!-- <div class="col-md-12">
               <div class="form-group">
                 <label>Address</label>
                 <input type="text" class="form-control" placeholder="Home Address" value="Melbourne, Australia">
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="row">
             <div class="col-md-4 pr-1">
@@ -186,16 +223,20 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label>About Me</label>
-                <textarea class="form-control textarea">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
+                <textarea
+                  class="form-control textarea">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="update ml-auto mr-auto">
-              <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+              <button type="submit" class="btn btn-primary btn-round"
+                [disabled]="regForm.pristine || regForm.invalid">Guardar</button>
             </div>
           </div>
         </form>
+        <p>Form value {{ regForm.value | json }} </p>
+        <p> Form status {{ regForm.status | json}} </p>
       </div>
     </div>
   </div>

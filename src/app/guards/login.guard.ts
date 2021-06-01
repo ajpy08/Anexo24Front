@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UsuarioService } from '../pages/user/usuario.service';
+import { UsuarioService } from '../pages/users/usuario.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class LoginGuard implements CanActivate {
       // if (this.usuarioService.usuario && this.usuarioService.usuario.estado) {
       //   this.usuarioService.updateStatusUser(this.usuarioService.usuario).subscribe(() => {});
       // }
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       return false;
     }
   }
