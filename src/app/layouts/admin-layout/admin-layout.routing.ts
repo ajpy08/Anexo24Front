@@ -1,3 +1,4 @@
+import { EmpresaComponent } from './../../pages/empresas/empresa.component';
 import { EmpresasComponent } from './../../pages/empresas/empresas.component';
 import { UsersComponent } from './../../pages/users/users.component';
 import { Routes } from '@angular/router';
@@ -22,11 +23,18 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'users',          component: UsersComponent },
     { path: 'user',           component: UserComponent },
     {
-        path: 'users/user/:id',
+        path: 'users/:id',
         component: UserComponent,
         // canActivate: [REIMGuard],
-        data: { titulo: 'Actualizacion de Usuarios.' }
+        data: { titulo: 'Actualizacion de Usuario' }
         // data: { titulo: 'Actualizacion de Usuarios.', roles: [ROLES.ADMIN_ROLE] }
     },
-    { path: 'empresas',       component: EmpresasComponent }
+    { path: 'empresas', component: EmpresasComponent },
+    {
+        path: 'empresas/:id',
+        component: EmpresaComponent,
+        // canActivate: [REIMGuard],
+        data: { titulo: 'Actualizacion de Empresa' }
+        // data: { titulo: 'Actualizacion de Empresa', roles: [ROLES.ADMIN_ROLE] }
+    },
 ];

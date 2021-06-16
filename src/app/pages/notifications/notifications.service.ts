@@ -107,7 +107,7 @@ export class NotificationsService {
       showCancelButton: true,
       confirmButtonText: 'Si',
       cancelButtonText: 'Cancelar',
-      reverseButtons: false
+      reverseButtons: true
     });
 
     // return await swalWithBootstrapButtons.fire({

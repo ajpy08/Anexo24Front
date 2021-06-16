@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
             this.cargarUsuario(id);
         } else {
             this.createdAt.disable();
-            this.empresaService.getEmpresas().subscribe(empresas => this.listaEmpresas = empresas.empresas);
+            this.empresaService.getEmpresas(true).subscribe(empresas => this.listaEmpresas = empresas.empresas);
         }
         this.url = '/usuarios';
     }
@@ -72,7 +72,7 @@ export class UserComponent implements OnInit {
 
     cargarUsuario(id: string) {
         this.usuarioService.getUsuario(id).subscribe(usuario => {
-            this.empresaService.getEmpresas().subscribe(empresas => this.listaEmpresas = empresas.empresas);
+            this.empresaService.getEmpresas(true).subscribe(empresas => this.listaEmpresas = empresas.empresas);
             this.nombre.setValue(usuario.nombre);
             this.email.setValue(usuario.email);
             // this.password.setValue(usuario.password);

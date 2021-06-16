@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-md-8">
+        <div class="card card-user">
+            <div class="card-header">
+                <h5 class="card-title">Edit Empresa</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="regForm" (ngSubmit)="guardarEmpresa()" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">RFC</label>
+                                <input matInput formControlName="rfc" type="rfc" class="form-control" placeholder="RFC"
+                                    value={{this.rfc.value}}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input matInput formControlName="nombre" type="text" class="form-control"
+                                    placeholder="Nombre" value={{this.nombre.value}}>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pl-1">
+                            <div class="form-group">
+                                <label>IMMEX</label>
+                                <input matInput formControlName="immex" type="immex" class="form-control"
+                                    placeholder="IMMEX" autocomplete="on" value={{this.immex.value}}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label>Fecha Cración (disabled)</label>
+                                <input matInput formControlName="createdAt" type="text" class="form-control"
+                                    placeholder="Creado el..." value={{this.createdAt.value}}>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-4 pr-1">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" class="form-control" placeholder="City" value="Melbourne">
+                            </div>
+                        </div>
+                        <div class="col-md-4 px-1">
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" class="form-control" placeholder="Country" value="Australia">
+                            </div>
+                        </div>
+                        <div class="col-md-4 pl-1">
+                            <div class="form-group">
+                                <label>Postal Code</label>
+                                <input type="number" class="form-control" placeholder="ZIP Code">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>About Me</label>
+                                <textarea
+                                    class="form-control textarea">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="update ml-auto mr-auto">
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="regForm.pristine || regForm.invalid">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+                <p>Form value {{ regForm.value | json }} </p>
+                <p> Form status {{ regForm.status | json}} </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { nombreSistema } from 'app/config/config';
 
 @Component({
   moduleId: module.id,
@@ -53,7 +54,7 @@ export class NavbarComponent implements OnInit {
         }
       }
     }
-    return 'Dashboard';
+    return nombreSistema;
   }
   sidebarToggle() {
     if (this.sidebarVisible === false) {

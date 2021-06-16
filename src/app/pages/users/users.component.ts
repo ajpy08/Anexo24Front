@@ -1,3 +1,4 @@
+import { ExcelServiceService } from './../../shared/services/excel-service.service';
 import { NotificationsService } from './../notifications/notifications.service';
 import { UsuarioService } from './../users/usuario.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -15,10 +16,10 @@ import swal from 'sweetalert2'
 })
 export class UsersComponent implements OnInit {
   usuarios: Usuario[] = [];
+  usersExcel = [];
   totalRegistros = 0;
   cargando = true;
   // roles = ROLES_ARRAY;
-  usuarioExcel = [];
   displayedColumns = [
     'actions',
     // 'foto',
@@ -37,6 +38,7 @@ export class UsersComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private notificationsService: NotificationsService,
+    private excelService: ExcelServiceService
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +68,24 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  exportarXLSX() {
+  CreaDatosExcel(datos) {
+    datos.forEach(dato => {
+      const reg = {
+        Nombre: dato.nombre,
+        Email: dato.email,
+        Estado: dato.estado ? 'Activo' : 'Inactivo'
+      };
+      this.usersExcel.push(reg);
+    });
+  }
+
+  exportAsXLSX(datos): void {
+    this.CreaDatosExcel(datos.filteredData);
+    if (this.usersExcel) {
+      this.excelService.exportAsExcelFile(this.usersExcel, 'Usuarios:');
+    } else {
+      this.notificationsService.showNotification(typeNotification.ERROR, 'No se puede exportar un excel vacio');
+    }
   }
 
   borrarUsuario(usuario: Usuario) {

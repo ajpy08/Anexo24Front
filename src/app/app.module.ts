@@ -1,3 +1,5 @@
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { VerificaTokenGuard } from './guards/verificatoken.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -20,17 +22,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuarioService } from './pages/users/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginGuard } from './guards/login.guard';
-import { UsersComponent } from './pages/users/users.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UsersComponent } from './pages/users/users.component';
+import { UserComponent } from './pages/users/user.component';
 import { EmpresasComponent } from './pages/empresas/empresas.component';
+import { EmpresaComponent } from './pages/empresas/empresa.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     AdminLayoutComponent,
     NotfoundComponent,
     UsersComponent,
+    UserComponent,
     EmpresasComponent,
+    EmpresaComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -61,14 +66,16 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     HttpClientModule,
     NgbModule,
     FontAwesomeModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatTableModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSlideToggleModule,
+    MatCheckboxModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
   providers: [
     UsuarioService,
