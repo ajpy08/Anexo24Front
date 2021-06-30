@@ -17,7 +17,9 @@
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": [
-              "chart.js"
+              "chart.js",
+              "xlsx",
+              "file-saver"
             ],
             "assets": [
               "src/assets",

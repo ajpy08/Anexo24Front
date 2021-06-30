@@ -10,6 +10,11 @@ export const typeNotification = {
     QUESTION: 'question'
 }
 
+export const tiposDireccion_ARRAY = [
+    { valor: 1, descripcion: 'PLANTA INDUSTRIAL' },
+    { valor: 2, descripcion: 'BODEGA' }
+  ];
+
 // export const ROLES = {
 //   ADMIN_ROLE: 'ADMIN_ROLE',
 //   PATIOADMIN_ROLE: 'PATIOADMIN_ROLE',

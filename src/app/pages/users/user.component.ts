@@ -106,7 +106,7 @@ export class UserComponent implements OnInit {
                         this.password.disable();
                         this.passwordConfirm.disable();
                         // this.role.disable();
-                        this.router.navigate(['/users/user', this.regForm.get('userId').value]);
+                        this.router.navigate(['/users/', this.regForm.get('userId').value]);
                     }
                     this.regForm.markAsPristine();
                 });

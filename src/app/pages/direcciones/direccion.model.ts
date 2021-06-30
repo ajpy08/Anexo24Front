@@ -8,6 +8,6 @@ export class Direccion {
         public tipo?: string,
         public estado?: string,
         public entidadFederativaId?: string,
-        public _id?: string
+        public direccionId?: string
     ) {}
 }

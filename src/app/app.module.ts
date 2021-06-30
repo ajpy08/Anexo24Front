@@ -33,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { DireccionesComponent } from './pages/direcciones/direcciones.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { MatTableModule } from '@angular/material/table';
     UserComponent,
     EmpresasComponent,
     EmpresaComponent,
+    DireccionesComponent,
   ],
   imports: [
     BrowserAnimationsModule,
