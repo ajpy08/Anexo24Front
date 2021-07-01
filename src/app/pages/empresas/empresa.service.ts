@@ -54,7 +54,7 @@ export class EmpresaService {
     const options = this.generalService.getOptionHeader(this.usuarioService.token);
     return this.http.post(url, empresa, options)
       .pipe(map((resp: any) => {
-        this.notificationsService.showNotification(typeNotification.SUCCESS, `Empresa ${empresa.nombre} creado`);
+        this.notificationsService.showNotification(typeNotification.SUCCESS, `${empresa.nombre} creado`);
         return resp.empresa;
       }));
   }
@@ -64,7 +64,7 @@ export class EmpresaService {
     const options = this.generalService.getOptionHeader(this.usuarioService.token);
     return this.http.put(url, empresa, options)
       .pipe(map((resp: any) => {
-        this.notificationsService.showNotification(typeNotification.SUCCESS, `Empresa ${empresa.nombre} actualizado`);
+        this.notificationsService.showNotification(typeNotification.SUCCESS, `${empresa.nombre} actualizado`);
         // return true;
         return resp.empresa;
       }));

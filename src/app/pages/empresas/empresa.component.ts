@@ -185,25 +185,38 @@ export class EmpresaComponent implements OnInit {
     });
   }
 
-  async guardarEmpresa() {
+  guardarEmpresa() {
     if (this.regForm.valid) {
+      const empresaTMP = this.regForm.value;
       this.empresaService.guardarEmpresa(this.regForm.value)
-        .subscribe(empresa => {
+        .subscribe(async empresa => {
           if (this.regForm.get('empresaId').value === '' || this.regForm.get('empresaId').value === undefined) {
             this.regForm.get('empresaId').setValue(empresa.empresaId);
             this.router.navigate(['/empresas/', this.regForm.get('empresaId').value]);
           }
-          this.direcciones.clear();
-          this.direccionService.getDireccionesXEmpresa(empresa.empresaId).subscribe((direcciones) => {
-            direcciones.direcciones.forEach(element => {
-              this.direcciones.push(
-                this.creaDireccion(element.calle, element.numero, element.cp,
-                  element.colonia, element.domicilioFiscal, element.tipo, element.direccionId, empresa.empresaId, element.entidadId));
-            });
+          this.direccionService.getDireccionesXEmpresa(empresa.empresaId).subscribe(direcciones => {
+            if (direcciones.direcciones && direcciones.direcciones.length > 0) {
+              this.direcciones.clear();
+              direcciones.direcciones.forEach(element => {
+                this.direcciones.push(
+                  this.creaDireccion(element.calle, element.numero, element.cp,
+                    element.colonia, element.domicilioFiscal, element.tipo, element.direccionId, empresa.empresaId, element.entidadId));
+              });
+            }
           });
           this.regForm.markAsPristine();
         });
     }
+  }
+
+  espera() {
+    return new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        console.log('esperando...');
+        resolve();
+      }, 2000
+      );
+    });
   }
 
   /* #region  Propiedades */

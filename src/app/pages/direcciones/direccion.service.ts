@@ -37,8 +37,6 @@ export class DireccionService {
   getDireccionesXEmpresa(empresaId: string): Observable<any> {
     const url = URL_SERVICIOS + '/direcciones/direccion/empresa/' + empresaId;
     const options = this.generalService.getOptionHeader(this.usuarioService.token);
-    // return this.http.get(url)
-    //   .pipe(map((resp: any) => resp.user));
     return this.http.get(url, options);
   }
 
