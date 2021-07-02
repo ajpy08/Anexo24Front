@@ -42,13 +42,11 @@ export class UsuarioService {
         map((resp: any) => {
           this.token = resp.token;
           localStorage.setItem('token', this.token);
-          // console.log('Token renovado');
           return true;
         }),
         catchError(err => {
           this.router.navigate(['/']);
           this.notificationsService.showNotification(typeNotification.ERROR, 'No se pudo renovar token ');
-          // swal('No se pudo renovar token', 'No fue posible renovar token', 'error');
           return throwError(err);
         }));
   }

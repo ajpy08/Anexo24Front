@@ -209,16 +209,6 @@ export class EmpresaComponent implements OnInit {
     }
   }
 
-  espera() {
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        console.log('esperando...');
-        resolve();
-      }, 2000
-      );
-    });
-  }
-
   /* #region  Propiedades */
   get rfc() {
     return this.regForm.get('rfc');

@@ -44,9 +44,6 @@ export class VerificaTokenGuard implements CanActivateChild {
 
       // ahora.setTime(ahora.getTime() + (1 * 60 * 60 * 1000));
 
-      // console.log( tokenExp );
-      // console.log( ahora );
-
       if (tokenExp.getTime() > ahora.getTime()) {
         resolve(true);
       } else {
