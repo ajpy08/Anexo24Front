@@ -1,3 +1,4 @@
+import { AgentesAduanalesComponent } from './../../pages/agentes-aduanales/agentes-aduanales.component';
 import { EmpresaComponent } from './../../pages/empresas/empresa.component';
 import { EmpresasComponent } from './../../pages/empresas/empresas.component';
 import { UsersComponent } from './../../pages/users/users.component';
@@ -11,6 +12,7 @@ import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
+import { AgenteAduanalComponent } from 'app/pages/agentes-aduanales/agente-aduanal.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -21,7 +23,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'users',          component: UsersComponent },
-    { path: 'user',           component: UserComponent },
+    // { path: 'user',           component: UserComponent },
     {
         path: 'users/:id',
         component: UserComponent,
@@ -35,6 +37,14 @@ export const AdminLayoutRoutes: Routes = [
         component: EmpresaComponent,
         // canActivate: [REIMGuard],
         data: { titulo: 'Actualizacion de Empresa' }
+        // data: { titulo: 'Actualizacion de Empresa', roles: [ROLES.ADMIN_ROLE] }
+    },
+    { path: 'agentesAduanales', component: AgentesAduanalesComponent },
+    {
+        path: 'agentesAduanales/:id',
+        component: AgenteAduanalComponent,
+        // canActivate: [REIMGuard],
+        data: { titulo: 'Actualizacion de Agentes Aduanales' }
         // data: { titulo: 'Actualizacion de Empresa', roles: [ROLES.ADMIN_ROLE] }
     },
 ];

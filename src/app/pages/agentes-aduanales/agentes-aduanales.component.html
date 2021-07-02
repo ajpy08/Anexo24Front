@@ -1,0 +1,107 @@
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fas fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card card-agenteAduanal">
+            <div class="card-body">
+                <div class="text-right">
+                    <button (click)="exportAsXLSX(this.dataSource)" class="btn btn-success m-r-10">
+                        <i class="fas fa-file-excel"></i>
+                    </button>
+                    <button matTooltip="Añadir nuevo Agente Aduanal" mat-mini-fab class="btn btn-primary"
+                        [routerLink]="['/agentesAduanales','nuevo']" type="button">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <h3 class="card-title">AgentesAduanales (<small>{{totalRegistros}}</small>)</h3>
+                <mat-checkbox [checked]="acttrue" [(ngModel)]="acttrue" #bool (value)="bool.checked"
+                    (change)="filtrado(bool.checked)">INACTIVOS
+                </mat-checkbox>
+                <div class="example-header mat-elevation-z8">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)"
+                            placeholder="Escriba algo para filtrar">
+                    </mat-form-field>
+                </div>
+
+                <br>
+                <div class="example-container mat-elevation-z8">
+                </div>
+                <div class="example-container mat-elevation-z8">
+                    <mat-table class="mat-table-big" #table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                            <mat-cell *matCellDef="let agenteAduanal">
+                                <button matTooltip="Editar Agente Aduanal"
+                                    [routerLink]="['/agentesAduanales', agenteAduanal.agenteAduanalId ]"
+                                    class="btn btn-primary m-r-5">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button *ngIf="agenteAduanal.estado" matTooltip="Eliminar Agente Aduanal"
+                                    (click)="borrarAgenteAduanal(agenteAduanal)" class="btn btn-danger m-r-5">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="patente">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Patente</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.patente}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="nombre">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.nombre}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="rfc">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>RFC</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.rfc}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="curp">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>CURP</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.curp}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <mat-slide-toggle [checked]="row.estado"
+                                    (change)="habilitaDeshabilitaAgenteAduanal(row, $event)"></mat-slide-toggle>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="createdAt">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>FAlta</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.createdAt | date:'dd/MM/yyyy'}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns" class="encabezado"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="10" [showFirstLastButtons]>
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div ngbDropdown>
+	<a class="btn btn-secondary" id="dropdownBasic2" ngbDropdownToggle>Dropdown Link</a>
+	<div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+		<button ngbDropdownItem>Action - 1</button>
+		<button ngbDropdownItem>Another Action</button>
+		<button ngbDropdownItem>Something else is here</button>
+	</div>
+</div> -->

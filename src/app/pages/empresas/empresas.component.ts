@@ -104,7 +104,7 @@ export class EmpresasComponent implements OnInit {
 
     this.notificationsService.showQuestion(
       'Estás seguro?',
-      `Quieres ${actDes} a la empresa ${empresa.nombre}?`
+      `Quieres ${actDes} a ${empresa.nombre}?`
     ).then((result) => {
       if (result.isConfirmed) {
         this.empresaService.habilitaDeshabilitaEmpresa(empresa, activo.checked).subscribe((res) => {

@@ -34,6 +34,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { DireccionesComponent } from './pages/direcciones/direcciones.component';
+import { AgentesAduanalesComponent } from './pages/agentes-aduanales/agentes-aduanales.component';
+import { AgenteAduanalComponent } from './pages/agentes-aduanales/agente-aduanal.component';
 
 
 @NgModule({
@@ -47,6 +49,8 @@ import { DireccionesComponent } from './pages/direcciones/direcciones.component'
     EmpresasComponent,
     EmpresaComponent,
     DireccionesComponent,
+    AgentesAduanalesComponent,
+    AgenteAduanalComponent,
   ],
   imports: [
     BrowserAnimationsModule,

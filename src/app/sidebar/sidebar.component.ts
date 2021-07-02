@@ -1,7 +1,5 @@
 import { nombreSistema } from './../config/config';
 import { Component, OnInit } from '@angular/core';
-
-
 export interface RouteInfo {
     path: string;
     title: string;
@@ -28,8 +26,9 @@ export const ROUTES: RouteInfo[] = [
         path: '', title: 'Catálogos', icon: 'nc-tile-56', class: '', isDropDownMenu: true,
         dropDownTarget: 'catalogosTarget',
         submenu: [
-            { path: '/users', title: 'Usuarios', icon: 'nc-circle-10', class: '' },
-            { path: '/empresas', title: 'Empresas', icon: 'nc-bookmark-2', class: '' }
+            { path: '/users', title: 'Usuarios', icon: 'far fa-user', class: '' },
+            { path: '/empresas', title: 'Empresas', icon: 'far fa-building', class: '' },
+            { path: '/agentesAduanales', title: 'Agentes', icon: 'fas fa-user-tie', class: '' }
         ]
     },
     {
