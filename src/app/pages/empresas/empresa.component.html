@@ -1,0 +1,257 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-user">
+            <div class="card-header">
+                <h5 class="card-title">Empresa</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="regForm" (ngSubmit)="guardarEmpresa()" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">RFC</label>
+                                <input formControlName="rfc" type="rfc" class="form-control" placeholder="RFC"
+                                    value={{this.rfc.value}}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre"
+                                    value={{this.nombre.value}}>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pl-1">
+                            <div class="form-group">
+                                <label>IMMEX</label>
+                                <input formControlName="immex" type="immex" class="form-control" placeholder="IMMEX"
+                                    autocomplete="on" value={{this.immex.value}}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label>Fecha Cración (disabled)</label>
+                                <input formControlName="createdAt" type="text" class="form-control"
+                                    placeholder="Creado el..." value={{this.createdAt.value}}>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="card-title">Direcciones</h5>
+
+                    <div class="row">
+                        <div class="col-md-4 pr-1">
+                            <div class="form-group">
+                                <label>Calle</label>
+                                <input type="text" class="form-control" placeholder="Calle" formControlName="calle">
+                            </div>
+                        </div>
+                        <div class="col-md-2 px-1">
+                            <div class="form-group">
+                                <label>Número</label>
+                                <input type="text" class="form-control" placeholder="Número" formControlName="numero">
+                            </div>
+                        </div>
+                        <div class="col-md-2 px-1">
+                            <div class="form-group">
+                                <label>CP</label>
+                                <input type="number" class="form-control" placeholder="CP" formControlName="cp">
+                            </div>
+                        </div>
+                        <div class="col-md-4 pl-1">
+                            <div class="form-group">
+                                <label>Colonia</label>
+                                <input type="text" class="form-control" placeholder="Colonia" formControlName="colonia">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2 pr-1">
+                            <div class="form-group">
+                                Domicilio Fiscal
+                                <mat-slide-toggle formControlName="domicilioFiscal"
+                                    [checked]="this.domicilioFiscal.value">
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-2">
+                            <div class="form-group">
+                                <label>Tipo</label>
+                                <mat-select placeholder="Seleccione un tipo" formControlName="tipo" name="tipo">
+                                    <mat-option *ngFor="let t of tiposDireccion" [value]="t.valor">
+                                        {{ t.descripcion }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-2">
+                            <div class="form-group">
+                                <label>Entidad Federativa</label>
+                                <mat-select placeholder="Seleccione una entidad" formControlName="entidadId"
+                                    name="entidadId">
+                                    <mat-option *ngFor="let e of entidades" [value]="e.entidadId">
+                                        {{ e.nombre }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                        <div class="col-m3 pr-2">
+                            <!-- <button [disabled]="regForm.pristine || regForm.invalid" (click)="addDireccion()" -->
+                            <button (click)="addDireccion()" type="button" class="btn btn-success btn-round">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md mx-1">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Calle</th>
+                                            <th scope="col">Número </th>
+                                            <th scope="col">CP</th>
+                                            <th scope="col">Colonia</th>
+                                            <th scope="col">Dom. Fiscal</th>
+                                            <th scope="col">Tipo Dirección</th>
+                                            <th scope="col">Entidad Fed.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="direcciones"
+                                        *ngFor="let item of direcciones.controls; let i = index;">
+                                        <tr [formGroupName]="i" class="text-center">
+                                            <th scope="row">{{i+1}}</th>
+                                            <td>{{this.direcciones.controls[i].get('calle').value}}</td>
+                                            <td>{{this.direcciones.controls[i].get('numero').value}}</td>
+                                            <td>{{this.direcciones.controls[i].get('cp').value}}</td>
+                                            <td>{{this.direcciones.controls[i].get('colonia').value}}</td>
+                                            <td>
+                                                <mat-checkbox class="example-margin" [disabled]="false"
+                                                    [checked]="this.direcciones.controls[i].get('domicilioFiscal').value">
+                                                </mat-checkbox>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Seleccione un tipo" formControlName="tipo"
+                                                    name="tipo"
+                                                    [(value)]="this.direcciones.controls[i].get('tipo').value">
+                                                    <mat-option *ngFor="let t of tiposDireccion" [value]="t.valor">
+                                                        {{ t.descripcion }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Seleccione una entidad"
+                                                    formControlName="entidadId" name="entidadId"
+                                                    [(value)]="this.direcciones.controls[i].get('entidadId').value">
+                                                    <mat-option *ngFor="let e of entidades" [value]="e.entidadId">
+                                                        {{ e.nombre }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                    (click)="removeDireccion( i, this.direcciones.value[i] )"
+                                                    class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
+                        <div class="col-md-10 pr-1">
+                            <div class="card-header">
+                                <h5 class="card-title">Direcciones</h5>
+                            </div>
+                            <mat-table class="mat-table-big" #table [dataSource]="this.direcciones" matSort>
+                                <ng-container matColumnDef="actions">
+                                    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                                    <mat-cell *matCellDef="let empresa">
+                                        <button matTooltip="Editar Empresa"
+                                            [routerLink]="['/empresas', empresa.empresaId ]"
+                                            class="btn btn-primary m-r-5">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button *ngIf="empresa.estado" matTooltip="Eliminar Empresa"
+                                            (click)="borrarEmpresa(empresa)" class="btn btn-danger m-r-5">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="calle">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Calle</mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{row.calle}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="numero">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Número</mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{row.numero}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="cp">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>CP</mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{row.cp}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="colonia">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{row.colonia}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="domicilioFiscal">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Domicilio Fiscal
+                                    </mat-header-cell>
+                                    <mat-slide-toggle formControlName="domicilioFiscal"
+                                        [checked]="this.domicilioFiscal.value">
+                                    </mat-slide-toggle>
+                                </ng-container>
+
+                                <ng-container matColumnDef="tipo">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row">
+                                        <mat-select placeholder="Seleccione un tipo" formControlName="tiposDireccion">
+                                            <mat-option *ngFor="let tipo of tiposDireccion" [value]="tipo">
+                                                {{ tipo }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="displayedColumns" class="encabezado"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                            </mat-table>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-md-8 pr-1">
+                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="10"
+                                [showFirstLastButtons]>
+                            </mat-paginator>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="update ml-auto mr-auto">
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="regForm.pristine || regForm.invalid">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+                <p>Form value {{ regForm.value | json }} </p>
+                <p> Form status {{ regForm.status | json}} </p>
+            </div>
+        </div>
+    </div>
+</div>

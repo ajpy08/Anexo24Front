@@ -1,8 +1,9 @@
+import { GeneralService } from './../../shared/services/general.service';
 import { NotificationsService } from './../notifications/notifications.service';
 import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Usuario } from './usuario.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { URL_SERVICIOS } from '../../../environments/environment';
 import { Router } from '@angular/router';
 // import { SubirArchivoService } from '../../services/subirArchivo/subir-archivo.service';
@@ -23,7 +24,8 @@ export class UsuarioService {
   constructor(
     public http: HttpClient,
     public router: Router,
-    public notificationsService: NotificationsService
+    public notificationsService: NotificationsService,
+    public generalService: GeneralService
     // public _subirArchivoService: SubirArchivoService
   ) {
     this.cargarStorage();
@@ -34,20 +36,17 @@ export class UsuarioService {
   }
 
   renuevaToken(): Observable<any> {
-    let url = URL_SERVICIOS + '/login/renuevatoken';
-    url += '?token=' + this.token;
+    const url = URL_SERVICIOS + '/login/renuevatoken';
     return this.http.get(url)
       .pipe(
         map((resp: any) => {
           this.token = resp.token;
           localStorage.setItem('token', this.token);
-          // console.log('Token renovado');
           return true;
         }),
         catchError(err => {
           this.router.navigate(['/']);
           this.notificationsService.showNotification(typeNotification.ERROR, 'No se pudo renovar token ');
-          // swal('No se pudo renovar token', 'No fue posible renovar token', 'error');
           return throwError(err);
         }));
   }
@@ -135,15 +134,18 @@ export class UsuarioService {
   }
 
   getUsuarios(act: boolean): Observable<any> {
-    let url = URL_SERVICIOS + '/users/' + act;
-    url += '?token=' + this.token;
-    return this.http.get(url);
+    const url = URL_SERVICIOS + '/users/' + act;
+    // pongo el token en los headers
+    const options = this.generalService.getOptionHeader(this.token);
+
+    return this.http.get(url, options);
   }
 
   getUsuario(id: string): Observable<any> {
-    let url = URL_SERVICIOS + '/users/user/' + id;
-    url += '?token=' + this.token;
-    return this.http.get(url)
+    const url = URL_SERVICIOS + '/users/user/' + id;
+    // pongo el token en los headers
+    const options = this.generalService.getOptionHeader(this.token);
+    return this.http.get(url, options)
       .pipe(map((resp: any) => resp.user));
   }
 
@@ -156,9 +158,10 @@ export class UsuarioService {
   }
 
   altaUsuario(usuario: Usuario): Observable<any> {
-    let url = URL_SERVICIOS + '/users';
-    url += '?token=' + this.token;
-    return this.http.post(url, usuario)
+    const url = URL_SERVICIOS + '/users';
+    // pongo el token en los headers
+    const options = this.generalService.getOptionHeader(this.token);
+    return this.http.post(url, usuario, options)
       .pipe(map((resp: any) => {
         this.notificationsService.showNotification(typeNotification.SUCCESS, `Usuario ${usuario.nombre} creado`);
         // swal('Usuario creado', usuario.email, 'success');
@@ -167,9 +170,10 @@ export class UsuarioService {
   }
 
   actualizarUsuario(usuario: Usuario) {
-    let url = URL_SERVICIOS + '/users/' + usuario.userId;
-    url += '?token=' + this.token;
-    return this.http.put(url, usuario)
+    const url = URL_SERVICIOS + '/users/' + usuario.userId;
+    // pongo el token en los headers
+    const options = this.generalService.getOptionHeader(this.token);
+    return this.http.put(url, usuario, options)
       .pipe(map((resp: any) => {
         if (usuario.userId === this.usuario.userId) {
           const usuarioDB: Usuario = resp.user;
@@ -182,12 +186,18 @@ export class UsuarioService {
   }
 
   habilitaDeshabilitaUsuario(usuario: Usuario, status: boolean): Observable<any> {
-    let url = URL_SERVICIOS + '/users/delete/' + usuario.userId;
-    url += '?token=' + this.token;
-    return this.http.put(url, { activo: status }).pipe(map((resp: any) => {
+    const url = URL_SERVICIOS + '/users/' + usuario.userId;
+    // pongo el token en los headers
+    const options = this.generalService.getOptionHeader(this.token);
+    // agrego en options el body ya que delete no cuenta con body
+    options['body'] = { activo: status }
+
+    return this.http.delete(url, options).pipe(map((resp: any) => {
       const statusDesc = status ? 'activado' : 'desactivado';
       this.notificationsService.showNotification(typeNotification.SUCCESS, `Usuario ${usuario.nombre} ${statusDesc}`);
       return true;
     }));
   }
 }
+
+

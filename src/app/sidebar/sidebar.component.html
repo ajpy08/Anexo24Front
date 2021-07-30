@@ -24,7 +24,7 @@
         <ul>
           <li *ngFor="let submenu of menuItem.submenu" routerLinkActive="active" class="{{menuItem.class}}">
             <a [routerLink]="[submenu.path]">
-              <i class="nc-icon {{submenu.icon}}"></i>
+              <i class="{{submenu.icon}}"></i>
               <p>{{submenu.title}}</p>
             </a>
           </li>
